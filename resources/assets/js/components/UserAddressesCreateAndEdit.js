@@ -11,6 +11,7 @@ Vue.component('user-addresses-create-and-edit',{
 	methods: {
 		//把参数 val 中的值保存到组件的数据中
 		onDistrictChanged(val) {
+			//console.log(val);
 			if(val.length ===3) {
 				this.province = val[0];
 				this.city = val[1];

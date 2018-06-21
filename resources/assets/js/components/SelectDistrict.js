@@ -50,7 +50,7 @@ Vue.component('select-district', {
 			//将城市列表设为当前城市下的地区
 			this.districts = addressData[newVal];
 			//如果当前选中的地区不再当前城市下，则将选中地区清空
-			if(!this.districts[this.disctId]) {
+			if(!this.districts[this.districtId]) {
 				this.districtId = '';
 			}
 		},
@@ -95,12 +95,12 @@ Vue.component('select-district', {
 			//从当前地区列表找到与数组第三个元素同名的项的索引
 			const districtId = _.findKey(addressData[cityId], o => o === value[2]);
 			//没找到，清空地区的值
-			if(!distictId) {
-				this.distictId = '';
+			if(!districtId) {
+				this.districtId = '';
 				return;
 			}
 			//找到了，将当前地区设置成对应的ID
-			this.distictId = districtId;
+			this.districtId = districtId;
 		}
 	}
 });
