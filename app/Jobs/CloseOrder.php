@@ -28,6 +28,8 @@ class CloseOrder implements ShouldQueue
     // 当队列处理器从队列中取出任务时，会调用 handle() 方法
     public function handle()
     {
+        //判断对应的订单是否已经被支付
+        //如果已经支付则不需要关闭订单，直接退出
         if ($this->order->paid_at) {
             return;
         }
