@@ -48,7 +48,7 @@
 								<td rowspan="{{ count($order->items) }}" class="text-center total-amount">{{ $order->total_amount }}</td>
 								<td rowspan="{{ count($order->items) }}" class="text-center">
 									@if($order->paid_at)
-										@if($orer->refund_status === \App\Models\Order::REFUND_STATUS_PENING)
+										@if($order->refund_status === \App\Models\Order::REFUND_STATUS_PENDING)
 											已支付
 										@else
 											{{ \App\Models\Order::$refundStatusMap[$order->refund_status] }}
