@@ -119,6 +119,12 @@ class PaymentController extends Controller
     protected function afterPaid(Order $order)
     {
     	event(new OrderPaid($order));
-    }
+	}
+	
+	public function wechatRefundNotify(Request $request)
+	{
+		//给微信的失败响应
+		$failXml = '<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><!>'
+	}
 
 }

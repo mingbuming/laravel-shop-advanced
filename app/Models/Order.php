@@ -104,7 +104,7 @@ class Order extends Model
 	    return false;
 	}
 	
-	public static function getAvailableRefundNo()
+	public static  function getAvailableRefundNo()
 	{
 		do {
 			//Uuid 类可以用来生成大概率不重复的字符串
