@@ -141,6 +141,7 @@ $(document).ready(function () {
 			address_id: $('#order-form').find('select[name=address]').val(),
 			items: [],
 			remark: $('#order-form').find('textarea[name=remark]').val(),
+			coupon_code: $('input[name=coupon_code]').val(), //从优惠码输入框中获取优惠码
 		};
 		//遍历<table>标签内所有带有 data-id 属性的 <tr> 标签，也就是每一个购物车中的商品 SKU
 		$('table tr[data-id]').each(function () {
@@ -198,7 +199,7 @@ $(document).ready(function () {
 		//调用检查接口
 		axios.get('/coupon_codes/'+encodeURIComponent(code))
 			.then(function(response) { // then 方法的第一个参数是回调，请求成功时会被调用
-				$('#coupon_desc').text(response.data.descripion);   //输出优惠信息
+				$('#coupon_desc').text(response.data.description);   //输出优惠信息
 				$('input[name=coupon_code]').prop('readonly', true);  // 禁用输入框
 				$('#btn-cancel-coupon').show(); //显示 取消 按钮
 				$('#btn-check-coupon').hide(); //隐藏 检查 按钮
