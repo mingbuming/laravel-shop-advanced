@@ -54,4 +54,11 @@ Route::get('products/{product}', 'ProductsController@show')->name('products.show
 Route::post('payment/alipay/notify', 'PaymentController@alipayNotify')->name('payment.alipay.notify');
 Route::post('payment/wechat/notify','PaymentController@wechatNotify')->name('payment.wechat.notify');
 
+Route::get('alipay', function(){
+	return app('alipay')->web([
+		'out_trade_no' => time(),
+		'total_amount' => '1',
+		'subject' => 'test subject - 测试',
+	]);
+});
 

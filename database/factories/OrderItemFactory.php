@@ -15,7 +15,7 @@ $factory->define(App\Models\OrderItem::class, function (Faker $faker) {
         'price' => $sku->price,
         'rating' => null,
         'review' => null,
-        'product_id' = $product->id,
+        'product_id' => $product->id,
         'product_sku_id' => $sku->id,
     ];
 });
