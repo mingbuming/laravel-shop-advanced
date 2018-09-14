@@ -109,26 +109,21 @@
 $(document).ready(function() {
 	// 不同意按 钮的点击事件
 	$('#btn-refund-disagree').click(function() {
-		//注意 Laravel-admin 的 swal 是 v1 版本， 参数和 v2版本的不太一样
 		swal({
 			title: '输入拒绝退款的理由',
-			type: 'input',
+			input: 'text',
 			showCancelButton: true,
-			closeOnconfirm: false,
 			confirmButtonText: '确认',
 			cancelButtonText: '取消',
-		}, function(inputValue){
-			//用户点击了取消 inputValue 为 false
-			// === 是为了区分用户点击取消还是没有输入
-			if (inputValue === false) {
-				return;
-			}
-			if (!inputValue) {
-				swal('理由不能为空', '', 'error');
-				return;
-			}
+			showLoaderOnConfirm: true,
+			preConfirm: function(inputValue) {
+				if(!inputValue) {
+					swal('理由不能为空', '', 'error')
+					return false;
+				}
+			
 			// Laravel-Admin 没有 axios 使用jquery 的 ajax 方法来请求
-			$.ajax({
+			return $.ajax({
 				url: '{{ route('admin.orders.handle_refund', [$order->id]) }}',
 				type: 'POST',
 				data: JSON.stringify({
@@ -139,16 +134,22 @@ $(document).ready(function() {
 					_token: LA.token,
 				}),
 				contentType: 'application/json',
-				success: function (data) { //返回成功时会调用这个函数
-					swal({
-						title: '操作成功',
-						type: 'success'
-					}, function() {
-						//用户点击 swal 的按钮是刷新页面
-						location.reload();
-					});
+				});
+			},
+			allowOutsideClick: () => !swal.isloading()
+		}).then(function (ret){
+			//如果用户点击了 取消 按钮 则不做任何操作
+			if (ret.dismiss === 'cancel') {
+				return;
+			}
 
-				}
+			swal({
+				title: '操作成功',
+				type: 'success'
+
+			}).then(function () {
+				//用户点击了 swal 的按钮时刷新页面
+				location.reload();
 			});
 		});
 	});
@@ -158,15 +159,11 @@ $(document).ready(function() {
 			title: '确认要将款项退还给用户？',
 			type: 'warning',
 			showCancelButton: true,
-			closeOnConfirm: false,
 			confirmButtonText: '确认',
 			cancelButtonText: '取消',
-		}, function(ret){
-			//用户点击取消不做任何操作
-			if (!ret) {
-				return;
-			}
-			$.ajax({
+			preConfirm: function () {
+
+			return $.ajax({
 				url: '{{ route('admin.orders.handle_refund', [$order->id]) }}',
 				type: 'POST',
 				data: JSON.stringify({
@@ -174,15 +171,21 @@ $(document).ready(function() {
 					_token: LA.token,
 				}),
 				contentType: 'application/json',
-				success: function(data) {
-					swal({
-						title: '操作成功',
-						type: 'success',
-					}, function() {
-						location.reload();
-					});
-				}
-			});
+				});
+			}
+		}.then(function (ret) {
+			//如果用户点击了 取消 按钮， 则不做任何操作
+			if (ret.dismiss === 'cancel') {
+				return;
+			}
+			swal({
+				title: '操作成功',
+				type: 'success',
+
+			}).then(function() {
+				//用户点击 swal 上的按钮时刷新页面
+				location.reload();
+			});	
 		});
 	});
 });
