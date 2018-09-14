@@ -15,7 +15,7 @@ class Category extends Model
     {
         parent::boot();
         // 监听 Category 的创建事件， 用于初始化 path 和 level 字段值
-        static::createing(function (Category $category) {
+        static::creating(function (Category $category) {
             // 如果创建的是一个根类目
             if (is_null($category->parent_id)) {
                 $category->level = 0;
